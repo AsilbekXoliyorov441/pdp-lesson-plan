@@ -12,6 +12,8 @@ import {
   Target,
   GraduationCap,
 } from "lucide-react";
+import { Canvas } from "@react-three/fiber";
+import { Float, OrbitControls, Text, Html } from "@react-three/drei";
 
 import { FaHtml5, FaCss3Alt, FaReact } from "react-icons/fa";
 import { IoLogoJavascript } from "react-icons/io5";
@@ -351,7 +353,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <MobileFooterNav />
     </main>
   );
 }

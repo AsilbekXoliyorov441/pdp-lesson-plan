@@ -79,7 +79,8 @@ export default function SectionPage() {
         <div className="absolute bottom-0 right-1/4 h-[300px] w-[300px] rounded-full bg-slate-800/30 blur-[100px]" />
       </div>
 
-      <div className="relative mx-auto max-w-4xl px-4 pt-8 pb-32 sm:px-6 lg:pb-16">
+      <div className="relative mx-auto w-full max-w-[1280px] px-4 pt-8 pb-32 sm:px-6 lg:px-8 lg:pb-20">
+        {" "}
         {/* ── BACK ────────────────────────────────────────── */}
         <motion.button
           initial={{ opacity: 0, x: -10 }}
@@ -90,7 +91,6 @@ export default function SectionPage() {
           <ArrowLeft size={14} />
           Orqaga
         </motion.button>
-
         {/* ── SECTION HEADER ──────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -157,7 +157,6 @@ export default function SectionPage() {
             )}
           </div>
         </motion.div>
-
         {/* ── MODULE LIST ─────────────────────────────────── */}
         {isEmpty ? (
           /* Empty state */
@@ -197,76 +196,93 @@ export default function SectionPage() {
             </div>
 
             {/* Modules */}
-            <div className="space-y-4">
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {section.modules.map((module, idx) => {
                 const lessonCount = module.lessons.length;
+                const hours = Math.round((lessonCount * 90) / 60);
 
                 return (
                   <motion.button
                     key={module.id}
-                    initial={{ opacity: 0, y: 16 }}
+                    initial={{ opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{
-                      delay: 0.07 + idx * 0.08,
+                      delay: 0.07 + idx * 0.07,
                       duration: 0.45,
                       ease: "easeOut",
                     }}
-                    whileHover={{ x: 5 }}
+                    whileHover={{ y: -6 }}
                     whileTap={{ scale: 0.985 }}
                     onClick={() => navigate(`/module/${module.id}`)}
-                    className="group relative w-full overflow-hidden rounded-2xl border border-white/8 bg-white/[0.04] p-5 text-left transition hover:border-white/16 hover:bg-white/[0.07]"
+                    className="group relative flex min-h-[260px] w-full flex-col overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.045] p-5 text-left shadow-xl shadow-black/20 transition duration-300 hover:border-white/20 hover:bg-white/[0.075]"
                   >
-                    {/* Hover glow strip */}
+                    {/* Premium glow */}
                     <div
-                      className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                      className="pointer-events-none absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100"
                       style={{
-                        background: `linear-gradient(90deg, ${meta.ring} 0%, transparent 55%)`,
+                        background: `radial-gradient(circle at 20% 0%, ${meta.ring}, transparent 55%)`,
                       }}
                     />
 
-                    <div className="relative flex items-center gap-4">
-                      {/* Number */}
+                    {/* Top */}
+                    <div className="relative mb-5 flex items-start justify-between gap-4">
                       <div
-                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${section.color} text-base font-black text-white shadow-lg`}
+                        className={`grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${section.color} text-lg font-black text-white shadow-lg`}
                       >
                         {String(idx + 1).padStart(2, "0")}
                       </div>
 
-                      {/* Info */}
-                      <div className="flex-1 min-w-0">
-                        <div className="mb-0.5 flex items-center gap-2">
-                          <span
-                            className="text-[11px] font-bold uppercase tracking-wider"
-                            style={{ color: meta.accent }}
-                          >
-                            {module.title}
-                          </span>
-                        </div>
-                        <h3 className="truncate text-base font-bold text-white">
-                          {module.subtitle}
-                        </h3>
-                        <p className="mt-0.5 truncate text-sm text-slate-400">
-                          {module.description}
-                        </p>
+                      <div className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[11px] font-bold text-slate-400">
+                        Modul
+                      </div>
+                    </div>
 
-                        {/* Tags */}
-                        <div className="mt-2.5 flex flex-wrap items-center gap-2">
-                          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[11px] text-slate-400">
-                            <BookOpen size={10} />
-                            {lessonCount} dars
-                          </span>
-                          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[11px] text-slate-400">
-                            <Clock size={10} />
-                            {Math.round((lessonCount * 90) / 60)} soat
-                          </span>
-                        </div>
+                    {/* Content */}
+                    <div className="relative flex-1">
+                      <p
+                        className="mb-2 text-[11px] font-black uppercase tracking-[0.18em]"
+                        style={{ color: meta.accent }}
+                      >
+                        {module.title}
+                      </p>
+
+                      <h3 className="mb-3 line-clamp-2 text-xl font-black leading-tight text-white">
+                        {module.subtitle}
+                      </h3>
+
+                      <p className="line-clamp-3 text-sm leading-relaxed text-slate-400">
+                        {module.description}
+                      </p>
+                    </div>
+
+                    {/* Bottom */}
+                    <div className="relative mt-6">
+                      <div className="mb-4 flex flex-wrap gap-2">
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs font-semibold text-slate-300">
+                          <BookOpen size={12} style={{ color: meta.accent }} />
+                          {lessonCount} dars
+                        </span>
+
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs font-semibold text-slate-300">
+                          <Clock size={12} style={{ color: meta.accent }} />
+                          {hours} soat
+                        </span>
                       </div>
 
-                      {/* Arrow */}
-                      <ChevronRight
-                        size={18}
-                        className="relative shrink-0 text-slate-600 transition group-hover:text-white"
-                      />
+                      <div className="flex items-center justify-between border-t border-white/8 pt-4">
+                        <span className="text-xs font-bold text-slate-500">
+                          Darslarni ko‘rish
+                        </span>
+
+                        <div
+                          className="grid h-9 w-9 place-items-center rounded-xl border border-white/10 bg-white/[0.05] transition group-hover:translate-x-1 group-hover:bg-white/[0.1]"
+                          style={{
+                            boxShadow: `0 0 22px ${meta.ring}`,
+                          }}
+                        >
+                          <ChevronRight size={17} className="text-white" />
+                        </div>
+                      </div>
                     </div>
                   </motion.button>
                 );

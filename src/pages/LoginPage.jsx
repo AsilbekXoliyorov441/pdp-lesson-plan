@@ -65,6 +65,7 @@ export default function LoginPage() {
         position: "relative",
         overflow: "hidden",
         fontFamily: "'DM Sans', sans-serif",
+        zIndex:"10000",
       }}
     >
       <style>{`

@@ -1,46 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
 import { login } from "../utils/auth";
-
-const CODE_ICON = (
-  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-    <path
-      d="M8 10L3 14L8 18"
-      stroke="#f59e0b"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M20 10L25 14L20 18"
-      stroke="#f59e0b"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M16 6L12 22"
-      stroke="#fbbf24"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-  </svg>
-);
 
 export default function LoginPage() {
   const navigate = useNavigate();
+
   const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
   const [focusedField, setFocusedField] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    await new Promise((r) => setTimeout(r, 700));
+    await new Promise((r) => setTimeout(r, 500));
 
     const success = login(form.username, form.password);
 
@@ -57,7 +33,8 @@ export default function LoginPage() {
     <main
       style={{
         minHeight: "100svh",
-        background: "#080a0f",
+        background:
+          "radial-gradient(circle at 50% -10%, rgba(59,130,246,0.22), transparent 34%), linear-gradient(135deg, #020617 0%, #08111f 45%, #020617 100%)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -65,514 +42,412 @@ export default function LoginPage() {
         position: "relative",
         overflow: "hidden",
         fontFamily: "'DM Sans', sans-serif",
-        zIndex:"10000",
+        zIndex: "10000",
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Cormorant+Garamond:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
 
-        .lux-input::placeholder { color: #3a3f4a; }
-        .lux-input:focus { outline: none; }
-        .lux-input { caret-color: #f59e0b; }
-
-        @keyframes grain {
-          0%, 100% { transform: translate(0, 0); }
-          10% { transform: translate(-2%, -3%); }
-          20% { transform: translate(3%, 2%); }
-          30% { transform: translate(-1%, 4%); }
-          40% { transform: translate(4%, -1%); }
-          50% { transform: translate(-3%, 2%); }
-          60% { transform: translate(2%, -4%); }
-          70% { transform: translate(-4%, 1%); }
-          80% { transform: translate(1%, 3%); }
-          90% { transform: translate(3%, -2%); }
+        .lux-input::placeholder {
+          color: #475569;
         }
 
-        @keyframes shimmer {
-          0% { background-position: -200% center; }
-          100% { background-position: 200% center; }
+        .lux-input:focus {
+          outline: none;
         }
 
-        .shimmer-btn {
-          background: linear-gradient(
-            105deg,
-            #b45309 0%,
-            #f59e0b 40%,
-            #fde68a 50%,
-            #f59e0b 60%,
-            #b45309 100%
-          );
-          background-size: 200% auto;
-          animation: shimmer 3s linear infinite;
+        .login-btn:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 18px 45px rgba(37, 99, 235, 0.34);
         }
 
-        .shimmer-btn:hover { animation-duration: 1.5s; }
+        .login-btn:active {
+          transform: translateY(0);
+        }
       `}</style>
 
-      {/* Noise grain overlay */}
-      <div
-        style={{
-          position: "fixed",
-          inset: "-50%",
-          width: "200%",
-          height: "200%",
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
-          opacity: 0.035,
-          animation: "grain 8s steps(1) infinite",
-          pointerEvents: "none",
-          zIndex: 1,
-        }}
-      />
-
-      {/* Ambient glow orbs */}
+      {/* luxury background decoration */}
       <div
         style={{
           position: "absolute",
-          top: "-10%",
-          left: "20%",
-          width: 500,
-          height: 500,
+          width: 520,
+          height: 520,
+          borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(245,158,11,0.07) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(37,99,235,0.16), transparent 65%)",
+          top: "-180px",
+          right: "-140px",
           pointerEvents: "none",
         }}
       />
+
       <div
         style={{
           position: "absolute",
-          bottom: "-10%",
-          right: "15%",
-          width: 400,
-          height: 400,
+          width: 420,
+          height: 420,
+          borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(14,165,233,0.12), transparent 65%)",
+          bottom: "-160px",
+          left: "-120px",
           pointerEvents: "none",
         }}
       />
 
-      {/* Diagonal line decoration */}
-      <svg
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          pointerEvents: "none",
-          opacity: 0.04,
-        }}
-      >
-        <line
-          x1="0"
-          y1="100%"
-          x2="100%"
-          y2="0"
-          stroke="#f59e0b"
-          strokeWidth="0.5"
-        />
-        <line
-          x1="-10%"
-          y1="110%"
-          x2="110%"
-          y2="-10%"
-          stroke="#f59e0b"
-          strokeWidth="0.5"
-        />
-      </svg>
-
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      <div
         style={{
           width: "100%",
-          maxWidth: 420,
+          maxWidth: 430,
           position: "relative",
           zIndex: 10,
         }}
       >
-        {/* Brand mark */}
-        <motion.div
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.6 }}
-          style={{ textAlign: "center", marginBottom: 40 }}
-        >
+        {/* Logo */}
+        <div style={{ textAlign: "center", marginBottom: 28 }}>
           <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: 20,
-              
-            }}
+            className="flex items-center justify-center"
           >
-            <img className="h-10" src="/logo.svg" alt="" />
+            <img style={{ height: 42 }} src="/logo.svg" alt="" />
           </div>
 
-          
-          <div
+          <p
             style={{
-              fontSize: 12,
-              color: "#4a5060",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              fontWeight: 400,
+              margin: "9px 0 0",
+              color: "#64748b",
+              fontSize: 13,
+              lineHeight: 1.6,
             }}
           >
-            Frontend Platform
-          </div>
-        </motion.div>
+            PDP Junior frontend dars reja platformasiga kirish
+          </p>
+        </div>
 
         {/* Card */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.25, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        <div
           style={{
+            position: "relative",
+            borderRadius: 30,
+            padding: 1,
             background:
-              "linear-gradient(160deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%)",
-            border: "1px solid rgba(255,255,255,0.07)",
-            borderRadius: 28,
-            padding: "36px 32px",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
+              "linear-gradient(145deg, rgba(96,165,250,0.45), rgba(255,255,255,0.06), rgba(37,99,235,0.18))",
             boxShadow:
-              "0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03) inset",
+              "0 40px 90px rgba(0,0,0,0.55), 0 20px 60px rgba(37,99,235,0.12)",
           }}
         >
-          {/* Thin gold top border */}
           <div
             style={{
-              position: "absolute",
-              top: 0,
-              left: "15%",
-              right: "15%",
-              height: 1,
+              borderRadius: 29,
+              padding: "34px 30px",
               background:
-                "linear-gradient(90deg, transparent, rgba(245,158,11,0.4), transparent)",
-              borderRadius: "0 0 4px 4px",
+                "linear-gradient(180deg, rgba(15,23,42,0.94), rgba(2,6,23,0.96))",
+              border: "1px solid rgba(255,255,255,0.04)",
             }}
-          />
-
-          <form onSubmit={handleSubmit}>
-            {/* Username field */}
-            <motion.div
-              initial={{ opacity: 0, x: -16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.35, duration: 0.5 }}
-              style={{ marginBottom: 16 }}
-            >
-              <label
-                style={{
-                  display: "block",
-                  fontSize: 11,
-                  color: focusedField === "username" ? "#f59e0b" : "#4a5060",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: 8,
-                  fontWeight: 500,
-                  transition: "color 0.2s",
-                }}
-              >
-                Foydalanuvchi nomi
-              </label>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  background:
-                    focusedField === "username"
-                      ? "rgba(245,158,11,0.05)"
-                      : "rgba(0,0,0,0.3)",
-                  border: `1px solid ${focusedField === "username" ? "rgba(245,158,11,0.3)" : "rgba(255,255,255,0.06)"}`,
-                  borderRadius: 14,
-                  padding: "0 16px",
-                  transition: "all 0.25s ease",
-                  boxShadow:
-                    focusedField === "username"
-                      ? "0 0 0 3px rgba(245,158,11,0.06)"
-                      : "none",
-                }}
-              >
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 15 15"
-                  fill="none"
-                  style={{ marginRight: 10, flexShrink: 0 }}
-                >
-                  <circle
-                    cx="7.5"
-                    cy="5"
-                    r="3"
-                    stroke={focusedField === "username" ? "#f59e0b" : "#3a3f4a"}
-                    strokeWidth="1.2"
-                    style={{ transition: "stroke 0.2s" }}
-                  />
-                  <path
-                    d="M2 13c0-3 2.5-5 5.5-5s5.5 2 5.5 5"
-                    stroke={focusedField === "username" ? "#f59e0b" : "#3a3f4a"}
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    style={{ transition: "stroke 0.2s" }}
-                  />
-                </svg>
-                <input
-                  className="lux-input"
-                  value={form.username}
-                  onChange={(e) =>
-                    setForm({ ...form, username: e.target.value })
-                  }
-                  onFocus={() => setFocusedField("username")}
-                  onBlur={() => setFocusedField(null)}
-                  placeholder="username"
-                  autoComplete="username"
+          >
+            <form onSubmit={handleSubmit}>
+              {/* Username */}
+              <div style={{ marginBottom: 18 }}>
+                <label
                   style={{
-                    width: "100%",
-                    background: "transparent",
-                    border: "none",
-                    padding: "14px 0",
-                    color: "#f0ece4",
-                    fontSize: 14,
-                    fontFamily: "'DM Sans', sans-serif",
-                    letterSpacing: "0.02em",
+                    display: "block",
+                    color: focusedField === "username" ? "#60a5fa" : "#94a3b8",
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    marginBottom: 9,
                   }}
-                />
-              </div>
-            </motion.div>
-
-            {/* Password field */}
-            <motion.div
-              initial={{ opacity: 0, x: -16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.42, duration: 0.5 }}
-              style={{ marginBottom: 24 }}
-            >
-              <label
-                style={{
-                  display: "block",
-                  fontSize: 11,
-                  color: focusedField === "password" ? "#f59e0b" : "#4a5060",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: 8,
-                  fontWeight: 500,
-                  transition: "color 0.2s",
-                }}
-              >
-                Parol
-              </label>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  background:
-                    focusedField === "password"
-                      ? "rgba(245,158,11,0.05)"
-                      : "rgba(0,0,0,0.3)",
-                  border: `1px solid ${focusedField === "password" ? "rgba(245,158,11,0.3)" : "rgba(255,255,255,0.06)"}`,
-                  borderRadius: 14,
-                  padding: "0 16px",
-                  transition: "all 0.25s ease",
-                  boxShadow:
-                    focusedField === "password"
-                      ? "0 0 0 3px rgba(245,158,11,0.06)"
-                      : "none",
-                }}
-              >
-                <svg
-                  width="14"
-                  height="15"
-                  viewBox="0 0 14 15"
-                  fill="none"
-                  style={{ marginRight: 10, flexShrink: 0 }}
                 >
-                  <rect
-                    x="1"
-                    y="6"
-                    width="12"
-                    height="8.5"
-                    rx="3"
-                    stroke={focusedField === "password" ? "#f59e0b" : "#3a3f4a"}
-                    strokeWidth="1.2"
-                    style={{ transition: "stroke 0.2s" }}
-                  />
-                  <path
-                    d="M4 6V4.5a3 3 0 016 0V6"
-                    stroke={focusedField === "password" ? "#f59e0b" : "#3a3f4a"}
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    style={{ transition: "stroke 0.2s" }}
-                  />
-                  <circle
-                    cx="7"
-                    cy="10.5"
-                    r="1"
-                    fill={focusedField === "password" ? "#f59e0b" : "#3a3f4a"}
-                    style={{ transition: "fill 0.2s" }}
-                  />
-                </svg>
-                <input
-                  className="lux-input"
-                  type="password"
-                  value={form.password}
-                  onChange={(e) =>
-                    setForm({ ...form, password: e.target.value })
-                  }
-                  onFocus={() => setFocusedField("password")}
-                  onBlur={() => setFocusedField(null)}
-                  placeholder="••••••••"
-                  autoComplete="current-password"
+                  Foydalanuvchi nomi
+                </label>
+
+                <div
                   style={{
-                    width: "100%",
-                    background: "transparent",
-                    border: "none",
-                    padding: "14px 0",
-                    color: "#f0ece4",
-                    fontSize: 14,
-                    fontFamily: "'DM Sans', sans-serif",
-                    letterSpacing: "0.08em",
+                    height: 52,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    padding: "0 15px",
+                    borderRadius: 16,
+                    background:
+                      focusedField === "username"
+                        ? "rgba(37,99,235,0.12)"
+                        : "rgba(15,23,42,0.82)",
+                    border:
+                      focusedField === "username"
+                        ? "1px solid rgba(96,165,250,0.48)"
+                        : "1px solid rgba(148,163,184,0.13)",
+                    boxShadow:
+                      focusedField === "username"
+                        ? "0 0 0 4px rgba(37,99,235,0.10)"
+                        : "none",
                   }}
-                />
-              </div>
-            </motion.div>
-
-            {/* Error */}
-            <AnimatePresence>
-              {error && (
-                <motion.div
-                  initial={{ opacity: 0, y: -8, height: 0 }}
-                  animate={{ opacity: 1, y: 0, height: "auto" }}
-                  exit={{ opacity: 0, y: -8, height: 0 }}
-                  style={{ overflow: "hidden", marginBottom: 16 }}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 8,
-                      background: "rgba(239,68,68,0.08)",
-                      border: "1px solid rgba(239,68,68,0.15)",
-                      borderRadius: 10,
-                      padding: "10px 14px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 4,
-                        height: 4,
-                        borderRadius: "50%",
-                        background: "#f87171",
-                        flexShrink: 0,
-                      }}
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M20 21a8 8 0 0 0-16 0"
+                      stroke={
+                        focusedField === "username" ? "#60a5fa" : "#64748b"
+                      }
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
                     />
-                    <span
-                      style={{
-                        fontSize: 13,
-                        color: "#fca5a5",
-                        fontWeight: 400,
-                      }}
-                    >
-                      {error}
-                    </span>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                    <circle
+                      cx="12"
+                      cy="8"
+                      r="4"
+                      stroke={
+                        focusedField === "username" ? "#60a5fa" : "#64748b"
+                      }
+                      strokeWidth="1.8"
+                    />
+                  </svg>
 
-            {/* Submit */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-            >
-              <button
-                type="submit"
-                disabled={loading}
-                className="shimmer-btn"
-                style={{
-                  width: "100%",
-                  padding: "15px",
-                  borderRadius: 14,
-                  border: "none",
-                  color: "#1a0f00",
-                  fontSize: 13,
-                  fontWeight: 600,
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                  fontFamily: "'DM Sans', sans-serif",
-                  cursor: loading ? "not-allowed" : "pointer",
-                  opacity: loading ? 0.7 : 1,
-                  position: "relative",
-                  overflow: "hidden",
-                  transition: "transform 0.15s, opacity 0.2s",
-                  boxShadow:
-                    "0 8px 32px rgba(245,158,11,0.25), 0 2px 8px rgba(0,0,0,0.3)",
-                }}
-                onMouseEnter={(e) => {
-                  if (!loading)
-                    e.currentTarget.style.transform = "translateY(-1px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-                onMouseDown={(e) => {
-                  e.currentTarget.style.transform = "translateY(1px)";
-                }}
-                onMouseUp={(e) => {
-                  e.currentTarget.style.transform = "translateY(-1px)";
-                }}
-              >
-                {loading ? (
-                  <span
+                  <input
+                    className="lux-input"
+                    value={form.username}
+                    onChange={(e) =>
+                      setForm({ ...form, username: e.target.value })
+                    }
+                    onFocus={() => setFocusedField("username")}
+                    onBlur={() => setFocusedField(null)}
+                    placeholder="username"
+                    autoComplete="username"
                     style={{
+                      width: "100%",
+                      height: "100%",
+                      background: "transparent",
+                      border: "none",
+                      color: "#f8fafc",
+                      fontSize: 14,
+                      fontWeight: 500,
+                      fontFamily: "'DM Sans', sans-serif",
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Password */}
+              <div style={{ marginBottom: 18 }}>
+                <label
+                  style={{
+                    display: "block",
+                    color: focusedField === "password" ? "#60a5fa" : "#94a3b8",
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    marginBottom: 9,
+                  }}
+                >
+                  Parol
+                </label>
+
+                <div
+                  style={{
+                    height: 52,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    padding: "0 13px 0 15px",
+                    borderRadius: 16,
+                    background:
+                      focusedField === "password"
+                        ? "rgba(37,99,235,0.12)"
+                        : "rgba(15,23,42,0.82)",
+                    border:
+                      focusedField === "password"
+                        ? "1px solid rgba(96,165,250,0.48)"
+                        : "1px solid rgba(148,163,184,0.13)",
+                    boxShadow:
+                      focusedField === "password"
+                        ? "0 0 0 4px rgba(37,99,235,0.10)"
+                        : "none",
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <rect
+                      x="5"
+                      y="10"
+                      width="14"
+                      height="10"
+                      rx="3"
+                      stroke={
+                        focusedField === "password" ? "#60a5fa" : "#64748b"
+                      }
+                      strokeWidth="1.8"
+                    />
+                    <path
+                      d="M8 10V7a4 4 0 0 1 8 0v3"
+                      stroke={
+                        focusedField === "password" ? "#60a5fa" : "#64748b"
+                      }
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+
+                  <input
+                    className="lux-input"
+                    type={showPassword ? "text" : "password"}
+                    value={form.password}
+                    onChange={(e) =>
+                      setForm({ ...form, password: e.target.value })
+                    }
+                    onFocus={() => setFocusedField("password")}
+                    onBlur={() => setFocusedField(null)}
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      background: "transparent",
+                      border: "none",
+                      color: "#f8fafc",
+                      fontSize: 14,
+                      fontWeight: 500,
+                      letterSpacing: showPassword ? "0.02em" : "0.08em",
+                      fontFamily: "'DM Sans', sans-serif",
+                    }}
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label="Show password"
+                    style={{
+                      width: 34,
+                      height: 34,
+                      borderRadius: 10,
+                      border: "1px solid rgba(148,163,184,0.14)",
+                      background: "rgba(255,255,255,0.03)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      gap: 8,
+                      cursor: "pointer",
+                      flexShrink: 0,
                     }}
                   >
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 0.8,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                      style={{
-                        width: 14,
-                        height: 14,
-                        border: "2px solid rgba(26,15,0,0.3)",
-                        borderTopColor: "#1a0f00",
-                        borderRadius: "50%",
-                      }}
-                    />
-                    Tekshirilmoqda...
-                  </span>
-                ) : (
-                  "Kirish"
-                )}
-              </button>
-            </motion.div>
-          </form>
-        </motion.div>
+                    {showPassword ? (
+                      <svg
+                        width="17"
+                        height="17"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M3 3l18 18"
+                          stroke="#60a5fa"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M10.6 10.6a2 2 0 0 0 2.8 2.8"
+                          stroke="#60a5fa"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M9.9 5.2A9.8 9.8 0 0 1 12 5c5.5 0 9 5 9 7a6.8 6.8 0 0 1-2 3"
+                          stroke="#60a5fa"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M6.6 6.8C4.3 8.3 3 10.6 3 12c0 2 3.5 7 9 7 1.1 0 2.1-.2 3-.6"
+                          stroke="#60a5fa"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        width="17"
+                        height="17"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M3 12s3.5-7 9-7 9 7 9 7-3.5 7-9 7-9-7-9-7Z"
+                          stroke="#60a5fa"
+                          strokeWidth="1.8"
+                          strokeLinejoin="round"
+                        />
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="3"
+                          stroke="#60a5fa"
+                          strokeWidth="1.8"
+                        />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+              </div>
 
-        {/* Footer note */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.65, duration: 0.6 }}
+              {/* Error */}
+              {error && (
+                <div
+                  style={{
+                    marginBottom: 16,
+                    padding: "12px 14px",
+                    borderRadius: 14,
+                    background: "rgba(239,68,68,0.10)",
+                    border: "1px solid rgba(248,113,113,0.22)",
+                    color: "#fca5a5",
+                    fontSize: 13,
+                    fontWeight: 500,
+                  }}
+                >
+                  {error}
+                </div>
+              )}
+
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="login-btn"
+                style={{
+                  width: "100%",
+                  height: 52,
+                  borderRadius: 16,
+                  border: "none",
+                  background:
+                    "linear-gradient(135deg, #60a5fa 0%, #3b82f6 45%, #2563eb 100%)",
+                  color: "#ffffff",
+                  fontSize: 13,
+                  fontWeight: 800,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  fontFamily: "'DM Sans', sans-serif",
+                  cursor: loading ? "not-allowed" : "pointer",
+                  opacity: loading ? 0.72 : 1,
+                  boxShadow:
+                    "0 14px 36px rgba(37,99,235,0.28), inset 0 1px 0 rgba(255,255,255,0.26)",
+                  transition: "0.18s ease",
+                }}
+              >
+                {loading ? "Tekshirilmoqda..." : "Kirish"}
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <p
           style={{
             textAlign: "center",
-            marginTop: 24,
+            marginTop: 22,
+            color: "#475569",
             fontSize: 11,
-            color: "#2a2f3a",
-            letterSpacing: "0.05em",
+            lineHeight: 1.6,
           }}
         >
-          © 2026 PDP Junior · Frontend dars reja platformasi by Asilbek Xoliyorov
-        </motion.p>
-      </motion.div>
+          © 2026 PDP Junior · Frontend dars reja platformasi by Asilbek
+          Xoliyorov
+        </p>
+      </div>
     </main>
   );
 }

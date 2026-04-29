@@ -17,6 +17,9 @@ import CssM3L3 from "./module3/Lesson3";
 import CssM3L4 from "./module3/Lesson4";
 import CssM3L5 from "./module3/Lesson5";
 import CssM3L6 from "./module3/Lesson6";
+import CssM3L7 from "./module3/Lesson7";
+import CssM3L8 from "./module3/Lesson8";
+import CssM3L9 from "./module3/Lesson9";
 // keyin qo‘shib borasan...
 
 // 🔥 Module 3 (keyin)
@@ -41,7 +44,9 @@ export const cssLessons = {
     4: CssM3L4,
     5: CssM3L5,
     6: CssM3L6,
-
+    7: CssM3L7,
+    8: CssM3L8,
+    9: CssM3L9,
   },
   4: {},
   5: {},
